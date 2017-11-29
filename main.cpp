@@ -33,7 +33,7 @@ public:
 	// builds *route and returns total distance.
 	int dijkstra(int start, int target, std::vector<int> *route);
 
-	int MST(std::vector<int> *route);
+	int MST(std::vector< intPair > *route);
 
 	// Output all vertices and edges
 	void print();
@@ -160,11 +160,14 @@ void Graph::buildRoute(int parent[], int vertex, int startVertex, std::vector<in
 	}
 }
 
-int Graph::MST(std::vector<int> *route) {
+int Graph::MST(std::vector< intPair > *route) {
+	int totalDistance = 0;
+	int start = 0;
+
 	// min heap
  	std::priority_queue<intPair, std::vector<intPair>, std::greater<intPair> > pq;
- 	// starting vertex
- 	int start = 0;
+
+
 
  	// init all keys to oo
  	std::vector<int> key(this->SIZE, this->oo);
@@ -204,10 +207,20 @@ int Graph::MST(std::vector<int> *route) {
  			}
  		}
  	}
-    // Print edges of MST using parent array
-    for (int i = 1; i < this->SIZE; ++i)
-    	std::cout << parent[i] << " - " << i << std::endl;
- 	return 0;
+    // Build MST edges using parent array and calc total distance
+    int weight;
+    // std::vector< intPair >::iterator pos;
+    for (int i = 1; i < this->SIZE; ++i) {
+    	for(auto pos = adj[i].begin(); pos != adj[i].end(); ++pos) {
+    		if(pos->first == parent[i]) {
+    			weight = pos->second;
+    		}
+    	}
+    	totalDistance += weight;
+
+    	route->push_back(std::make_pair(parent[i], i));
+    }
+ 	return totalDistance;
 }
 
 int main()
@@ -280,16 +293,40 @@ int main()
 	graph.addEdge(cities["Boston"],cities["New York"], 214);
 	/******************************************************************/
 
-	std::vector<int> *route = new std::vector<int>;
+	std::vector<int> *shortestPath = new std::vector<int>;
+	std::vector< intPair > *mst = new std::vector< intPair >;
+	int dist;
 
-	// int dist = graph.dijkstra(cities["Miami"], cities["Los Angeles"], route);
+	/*************** DIJKSTRA ***************/
+	int atlantaIndex = cities["Atlanta"];
+	for (int i = 0; i < V; ++i)
+	{
+		if( i != atlantaIndex) {
+			dist = graph.dijkstra(atlantaIndex, i, shortestPath);
 
-	int dist = graph.MST(route);
+			std::cout << "PATH FROM Atlanta TO " << cityVec[i] << std::endl
+					<< "Distance: " << dist << " mi.\n";
 
-	std::cout << dist << " mi.\n";
+			for(auto v : *shortestPath) {
+				std::cout << cityVec[v] << "\n";
+			} std::cout << "\n";	
+		}
+		if(i != 0) { // not building correct path when i = 1 need to find out why
+					 // this my my ghetto fix for the assignment.
+			shortestPath->clear();
+		}
+	}
 
-	for (auto v : *route) {
-		std::cout << cityVec[v] << "\n";
+
+	/********* MINIMUM SPANNING TREE ********/
+	dist = graph.MST(mst);
+
+	std::cout << "MINIMUM SPANNING TREE\n"
+	 			<< "Distance: " << dist << " mi.\n";
+
+	// output MST
+	for (auto v : *mst) {
+		std::cout << cityVec[v.first] << " to " << cityVec[v.second] << "\n";
 	}
 
 	return 0;
