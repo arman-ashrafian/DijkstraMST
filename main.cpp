@@ -15,7 +15,7 @@ CS 1D Assignment 12
 #include <algorithm>
 #include <map>
 
-/****** GLOBAL TYPEDEFS ******/
+/********** GLOBAL TYPEDEFS ***********/
 typedef std::pair<int, int> intPair;
 typedef std::vector< intPair > edgeVec;
 
@@ -32,6 +32,8 @@ public:
 	// shortest route from start to target.
 	// builds *route and returns total distance.
 	int dijkstra(int start, int target, std::vector<int> *route);
+
+	int MST(std::vector<int> *route);
 
 	// Output all vertices and edges
 	void print();
@@ -158,6 +160,56 @@ void Graph::buildRoute(int parent[], int vertex, int startVertex, std::vector<in
 	}
 }
 
+int Graph::MST(std::vector<int> *route) {
+	// min heap
+ 	std::priority_queue<intPair, std::vector<intPair>, std::greater<intPair> > pq;
+ 	// starting vertex
+ 	int start = 0;
+
+ 	// init all keys to oo
+ 	std::vector<int> key(this->SIZE, this->oo);
+
+ 	// init all parent to -1
+ 	std::vector<int> parent(this->SIZE, -1);
+
+ 	// keep track of vertices in MST
+ 	std::vector<bool> inMST(this->SIZE, false);
+
+ 	// insert start into pq and set init key to 0
+ 	pq.push(std::make_pair(0, start));
+ 	key[start] = 0;
+
+ 	int u;
+ 	while(!pq.empty()) {
+ 		u = pq.top().second;	// min key vertex label
+ 		pq.pop();
+
+ 		inMST[u] = true;
+
+ 		std::vector< intPair >::iterator i;
+
+ 		int v, weight;
+ 		for(i = adj[u].begin(); i != adj[u].end(); ++i) {
+ 			// get vertex label and weight of current adjacent vertex
+ 			v = i->first;
+ 			weight = i->second;
+
+ 			// if v is not in MST and weight of (u,v) is smaller
+ 			// than the current key of v
+ 			if(inMST[v] == false && key[v] > weight) {
+ 				// update key of v
+ 				key[v] = weight;
+ 				pq.push(std::make_pair(key[v], v));
+ 				parent[v] = u;
+ 			}
+ 		}
+ 	}
+    // Print edges of MST using parent array
+    for (int i = 1; i < this->SIZE; ++i)
+    	std::cout << parent[i] << " - " << i << std::endl;
+ 	return 0;
+}
+
 int main()
 {
 	const int V = 12;
@@ -230,8 +282,9 @@ int main()
 
 	std::vector<int> *route = new std::vector<int>;
 
-	std::cout << "SHORTEST PATH FROM ATLANTA TO SEATTLE\n";
-	int dist = graph.dijkstra(cities["Miami"], cities["Los Angeles"], route);
+	// int dist = graph.dijkstra(cities["Miami"], cities["Los Angeles"], route);
+
+	int dist = graph.MST(route);
 
 	std::cout << dist << " mi.\n";
 
