@@ -166,9 +166,7 @@ int Graph::MST(std::vector< intPair > *route) {
 
 	// min heap
  	std::priority_queue<intPair, std::vector<intPair>, std::greater<intPair> > pq;
-
-
-
+ 	
  	// init all keys to oo
  	std::vector<int> key(this->SIZE, this->oo);
 
@@ -322,7 +320,7 @@ int main()
 	dist = graph.MST(mst);
 
 	std::cout << "MINIMUM SPANNING TREE\n"
-	 			<< "Distance: " << dist << " mi.\n";
+			<< "Distance: " << dist << " mi.\n";
 
 	// output MST
 	for (auto v : *mst) {

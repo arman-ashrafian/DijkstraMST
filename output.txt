@@ -1,0 +1,85 @@
+Arman Ashrafian
+CS 1D Assignment 12
+11-29-2017
+
+1) Implement Dijkstra to find shortest distance from Atlanta
+	to all other cities on the map. Identify paths and distances.
+2) Determine the Minimum Spanning Tree. Identify edges and 
+	total mileage.
+
+PATH FROM Atlanta TO Los Angeles
+Distance: 2216 mi.
+Atlanta
+Dallas
+Los Angeles
+
+PATH FROM Atlanta TO San Francisico
+Distance: 2597 mi.
+Atlanta
+Dallas
+Los Angeles
+San Francisico
+
+PATH FROM Atlanta TO Seattle
+Distance: 2794 mi.
+Atlanta
+Kansas City
+Denver
+Seattle
+
+PATH FROM Atlanta TO Denver
+Distance: 1463 mi.
+Atlanta
+Kansas City
+Denver
+
+PATH FROM Atlanta TO Chicago
+Distance: 1397 mi.
+Atlanta
+Kansas City
+Chicago
+
+PATH FROM Atlanta TO Kansas City
+Distance: 864 mi.
+Atlanta
+Kansas City
+
+PATH FROM Atlanta TO Dallas
+Distance: 781 mi.
+Atlanta
+Dallas
+
+PATH FROM Atlanta TO Houston
+Distance: 810 mi.
+Atlanta
+Houston
+
+PATH FROM Atlanta TO Boston
+Distance: 1102 mi.
+Atlanta
+New York
+Boston
+
+PATH FROM Atlanta TO New York
+Distance: 888 mi.
+Atlanta
+New York
+
+PATH FROM Atlanta TO Miami
+Distance: 661 mi.
+Atlanta
+Miami
+
+MINIMUM SPANNING TREE
+Distance: 6513 mi.
+Los Angeles to San Francisico
+San Francisico to Seattle
+Los Angeles to Denver
+Kansas City to Chicago
+Denver to Kansas City
+Kansas City to Dallas
+Dallas to Houston
+New York to Boston
+Chicago to New York
+Dallas to Atlanta
+Atlanta to Miami
